@@ -1,0 +1,16 @@
+.site-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.menu-batton {
+  background-color: #fff;
+  border: transparent;
+  padding: 0;
+}
+.icon-cross {
+  display: none;
+}
+.icon-menu {
+  display: block;
+}
