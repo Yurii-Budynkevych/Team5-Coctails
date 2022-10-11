@@ -1,11 +1,12 @@
 'use strict';
 import debounce from 'lodash.debounce';
 
-const BASE_URL = 'www.thecocktaildb.com/api/json/v1/1/';
+const BASE_URL = 'https://www.thecocktaildb.com/api/json/v1/1/';
 const DEBOUNCE_DELAY = 500;
 const refs = {
   input: document.querySelector('.header-input'),
   btn: document.querySelector('.menu-batton'),
+  mobileMenu: document.querySelector('.header-mobile-menu'),
 };
 
 refs.input.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
@@ -29,9 +30,9 @@ function getCocktails(query) {
 // ______________________________________________________
 // menu btn
 refs.btn.addEventListener('click', onClick);
-function onClick(evt) {
+function onClick() {
   const expanded = refs.btn.getAttribute('aria-expanded') === 'true' || false;
 
-  evt.currentTarget.classList.toggle('is-closed');
+  refs.mobileMenu.classList.toggle('is-open');
   refs.btn.setAttribute('aria-expanded', !expanded);
 }

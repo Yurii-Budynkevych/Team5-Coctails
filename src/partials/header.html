@@ -1,34 +1,45 @@
 <header class="page-header">
-  <nav class="site-nav">
-    <a href="./index.html" class="logo">
-      <svg width="123px" height="34px">
-        <use
-          class="icon-logo"
-          href="./images/svg/symbol-defs.svg#icon-Logo-1"
-        ></use></svg
-    ></a>
-    <button
-      type="button"
-      class="menu-batton is-closed"
-      aria-expanded="false"
-      aria-controls="menu"
-      data-menu-button
-    >
-      <svg width="32px" height="32px" aria-label="mobile menu switcher">
-        <use
-          class="icon-cross"
-          href="./images/svg/symbol-defs.svg#icon-clarity_close-line-1"
-        ></use>
-        <use
-          class="icon-menu"
-          href="./images/svg/symbol-defs.svg#icon-menu-1"
-        ></use>
-      </svg>
-    </button>
-    <!-- <ul>
-      <li>Home</li>
-      <li>Favorite</li>
-    </ul> -->
-    <input class="header-input" type="text" placeholder="Search" />
-  </nav>
+  <div class="container">
+    <nav class="site-nav">
+      <a href="./index.html" class="logo">
+        <img
+          class="mobile-logo"
+          src="./images/svg/Group 93.svg"
+          alt="logo"
+          width="30px"
+          height="26px"
+        />COCKTAILS</a
+      >
+      <button
+        type="button"
+        class="menu-batton"
+        aria-expanded="false"
+        aria-controls="menu"
+        data-menu-button
+      >
+        <svg width="32px" height="32px" aria-label="mobile menu switcher">
+          <use
+            class="icon-cross"
+            href="./images/svg/header-sprite.svg#icon-clarity_close-line-1"
+          ></use>
+          <use
+            class="icon-menu"
+            href="./images/svg/header-sprite.svg#icon-menu-1"
+          ></use>
+        </svg>
+      </button>
+      <div class="header-mobile-menu">
+        <div class="input-box">
+          <svg class="magnifying-glass">
+            <use href="./images/svg/header-sprite.svg#icon-bx_search-1"></use>
+          </svg>
+          <input class="header-input" type="text" placeholder="Search" />
+          <ul>
+            <li><a href="">Favorite</a></li>
+            <li><a href="">Ingridients</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
 </header>
