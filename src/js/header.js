@@ -1,5 +1,8 @@
 'use strict';
 import debounce from 'lodash.debounce';
+import mainFunction from './coctails';
+
+let arrayLength = 0;
 
 const BASE_URL = 'https://www.thecocktaildb.com/api/json/v1/1/';
 const DEBOUNCE_DELAY = 500;
@@ -12,21 +15,29 @@ const refs = {
 refs.input.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
 function onInput(evt) {
   let serchQuery = evt.target.value;
-  getCocktails(serchQuery)
-    .then(data => console.log(data))
-    .catch(erro => {
-      console.log(erro);
+  fetch(`${BASE_URL}search.php?s=${serchQuery}`)
+    .then(response => response.json())
+    .then(response => {
+      arrayLength = response.drinks.length;
+      console.log(arrayLength);
+      mainFunction(1, `${BASE_URL}search.php?s=${serchQuery}`, arrayLength);
     });
+
+  // getCocktails(serchQuery)
+  //   .then(data => console.log(data))
+  //   .catch(erro => {
+  //     console.log(erro);
+  //   });
 }
 
-function getCocktails(query) {
-  return fetch(`${BASE_URL}search.php?s=${query}`).then(response => {
-    if (!response.ok) {
-      throw new Error(response.statusText);
-    }
-    return response.json();
-  });
-}
+// function getCocktails(query) {
+//   return fetch(`${BASE_URL}search.php?s=${query}`).then(response => {
+//     if (!response.ok) {
+//       throw new Error(response.statusText);
+//     }
+//     return response.json();
+//   });
+// }
 // ______________________________________________________
 // menu btn
 refs.btn.addEventListener('click', onClick);

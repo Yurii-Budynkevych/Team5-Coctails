@@ -24,6 +24,8 @@ export let coctailNumber = 0;
 // переменная для определения типа добавляемого в избранное(коктейль или ингредиент)
 export let storageKey = 0;
 
+export let searchIn = 0;
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //                   НАЧАЛО ФУНКЦИЙ
 
@@ -166,9 +168,9 @@ export const modalButtonTextChange = (button, buttonClass) => {
 // функция добавляет разметку карточки коктейля из текущей итерации цикла
 //с кнопкой "добавить в избранное"
 export const coctailCardMarkup = (
-  markupPlace,
-  cocktailName,
-  cocktailImgLink
+  markupPlace = '',
+  cocktailName = '',
+  cocktailImgLink = ''
 ) => {
   markupPlace.innerHTML += `<li class='coctails-section__coctail'>
             <div class='coctails-section__coctail-container'>
@@ -257,248 +259,277 @@ getCocktailsAmount(coctailsSection);
 
 // дальше черная магия.
 // цикл делает столько итераций, сколько нужно отрисовать коктейлей
+//////////////////////////////////////////////////////////////////////////////////
 // НАЧАЛО ЦИКЛА
-for (let iteration = 0; iteration < coctailsAmount; iteration += 1) {
-  // забираем у бекенда рандомный коктейль
-  fetchCoctailOrIngredient(
-    'https://www.thecocktaildb.com/api/json/v1/1/random.php'
-  )
-    .then(newResponse => {
-      // увеличиваем счетчик коклейлей на 1
-      coctailNumber += 1;
+export default function mainFunction(searchIn, searchLink, amount) {
+  coctailsList.innerHTML = '';
 
-      // создаем разметку карточки
-      const { strDrinkThumb, strDrink } = newResponse.drinks[0];
-      coctailCardMarkup(coctailsList, strDrink, strDrinkThumb);
+  for (let iteration = 0; iteration < amount; iteration += 1) {
+    // забираем у бекенда рандомный коктейль
+    fetchCoctailOrIngredient(searchLink)
+      .then(newResponse => {
+        if (searchIn !== 0) {
+          fetchCoctailOrIngredient(searchLink).then(newResponse => {
+            coctailsAmount = newResponse.drinks.length;
+          });
+        }
+        console.log(coctailsAmount);
+        // увеличиваем счетчик коклейлей на 1
+        coctailNumber += 1;
+        let coctailIterationNumber = 0;
 
-      // проверяем находится ли коктейль или ингредиент в избранном
-      checkFavoriteOrNot(
-        strDrink,
-        favoriteCoctails,
-        'coctails-section__like-button',
-        'coctails-section__dislike-button',
-        'Remove',
-        coctailNumber
-      );
+        if (searchIn) {
+          coctailIterationNumber = iteration;
+        }
+        const { strDrinkThumb = '', strDrink = '' } =
+          newResponse.drinks[coctailIterationNumber];
 
-      // выбираем все созданные карточки коктейлей(вне зависимости от итерации)
-      const coctailCards = document.querySelectorAll(
-        '.coctails-section__coctail-container'
-      );
+        // создаем разметку карточки
+        coctailCardMarkup(coctailsList, strDrink, strDrinkThumb);
+        // const { strDrinkThumb, strDrink } = newResponse.drinks[iteration];
 
-      //вешаем слушателя события на все КАРТОЧКИ коктейлей(именно на карточки)
-      coctailCards.forEach(elem => {
-        elem.addEventListener('click', event => {
-          //создаём переменную, которая будет содержать имя коктейля текущей итерации цикла
-          const currentItemlName = event.currentTarget.querySelector(
-            '.coctails-section__coctail-name'
-          ).textContent;
-          //добавляем/удаляем коктейль/игредиент в избранное
-          makeFavoriteOrNot(
-            event,
-            'coctails-section__like-button',
-            'coctails-section__dislike-button',
-            currentItemlName,
-            favoriteCoctails
-          );
+        // проверяем находится ли коктейль или ингредиент в избранном
+        checkFavoriteOrNot(
+          strDrink,
+          favoriteCoctails,
+          'coctails-section__like-button',
+          'coctails-section__dislike-button',
+          'Remove',
+          coctailNumber
+        );
 
-          // при нажатии на кнопку "узнать больше" на коктейле
-          if (
-            event.target.classList.contains('coctails-section__learn-button')
-          ) {
-            // запоминаем айди текущей кнопки лайка, чтоб если лайк ставился на модалке - менялась кнопка на главной
-            const currentCoctailNumber = event.currentTarget
-              .querySelector('.coctails-section__favorite-button')
-              .getAttribute('id');
+        // выбираем все созданные карточки коктейлей(вне зависимости от итерации)
+        const coctailCards = document.querySelectorAll(
+          '.coctails-section__coctail-container'
+        );
 
-            // забираем у бекенда коктейль, на карточке которого открывается модалка
-            // и получаем всю нужную инфу для модалки
-            fetchCoctailOrIngredient(
-              `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${currentItemlName}`
-            ).then(newResponse => {
-              const coctail = newResponse;
-              const { strDrinkThumb, strDrink, strInstructions } =
-                coctail.drinks[0];
+        //вешаем слушателя события на все КАРТОЧКИ коктейлей(именно на карточки)
+        coctailCards.forEach(elem => {
+          elem.addEventListener('click', event => {
+            //создаём переменную, которая будет содержать имя коктейля текущей итерации цикла
+            const currentItemlName = event.currentTarget.querySelector(
+              '.coctails-section__coctail-name'
+            ).textContent;
+            //добавляем/удаляем коктейль/игредиент в избранное
+            makeFavoriteOrNot(
+              event,
+              'coctails-section__like-button',
+              'coctails-section__dislike-button',
+              currentItemlName,
+              favoriteCoctails
+            );
 
-              // создаем изначальную разметку модалки
-              coctailModalMarckup(
-                coctailModal,
-                strDrink,
-                strDrinkThumb,
-                strInstructions
-              );
+            // при нажатии на кнопку "узнать больше" на коктейле
+            if (
+              event.target.classList.contains('coctails-section__learn-button')
+            ) {
+              // запоминаем айди текущей кнопки лайка, чтоб если лайк ставился на модалке - менялась кнопка на главной
+              const currentCoctailNumber = event.currentTarget
+                .querySelector('.coctails-section__favorite-button')
+                .getAttribute('id');
 
-              // создаём переменную текущей кнопки "добавить в избранное"
-              const modalLikeBtn = document.querySelector(
-                '.coctail-modal__like-coctail-btn'
-              );
+              // забираем у бекенда коктейль, на карточке которого открывается модалка
+              // и получаем всю нужную инфу для модалки
+              fetchCoctailOrIngredient(
+                `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${currentItemlName}`
+              ).then(newResponse => {
+                const coctail = newResponse;
 
-              // проверяем находится ли коктейль в списке избранных,
-              // меняем текст кнопки в зависимости от того есть или нет
-              checkFavoriteOrNot(
-                strDrink,
-                favoriteCoctails,
-                'coctail-modal__like-coctail-btn',
-                'coctail-modal__dislike-coctail-btn',
-                'Remove from favorites',
-                coctailNumber
-              );
+                const {
+                  strDrinkThumb = '',
+                  strDrink = '',
+                  strInstructions = '',
+                } = coctail.drinks[0];
 
-              // вешаем слушателя события добавления/удаления в избранные
-              modalLikeBtn.addEventListener('click', event => {
-                makeFavoriteOrNot(
-                  event,
+                // создаем изначальную разметку модалки
+                coctailModalMarckup(
+                  coctailModal,
+                  strDrink,
+                  strDrinkThumb,
+                  strInstructions
+                );
+
+                // создаём переменную текущей кнопки "добавить в избранное"
+                const modalLikeBtn = document.querySelector(
+                  '.coctail-modal__like-coctail-btn'
+                );
+
+                // проверяем находится ли коктейль в списке избранных,
+                // меняем текст кнопки в зависимости от того есть или нет
+                checkFavoriteOrNot(
+                  strDrink,
+                  favoriteCoctails,
                   'coctail-modal__like-coctail-btn',
                   'coctail-modal__dislike-coctail-btn',
-                  currentItemlName,
-                  favoriteCoctails
+                  'Remove from favorites',
+                  coctailNumber
                 );
-                //меняем текст кнопки на длинный(на модалках он отличается)
-                modalButtonTextChange(
-                  modalLikeBtn,
-                  'coctail-modal__like-coctail-btn'
-                );
-                // меняем так же копку добавления/удаления в избранное на главной странице
-                const currentLikeButton = document.querySelector(
-                  `#${currentCoctailNumber}`
-                );
-                currentLikeButton.classList.toggle(
-                  'coctails-section__like-button'
-                );
-                currentLikeButton.classList.toggle(
-                  'coctails-section__dislike-button'
-                );
-                if (
-                  currentLikeButton.classList.contains(
+
+                // вешаем слушателя события добавления/удаления в избранные
+                modalLikeBtn.addEventListener('click', event => {
+                  makeFavoriteOrNot(
+                    event,
+                    'coctail-modal__like-coctail-btn',
+                    'coctail-modal__dislike-coctail-btn',
+                    currentItemlName,
+                    favoriteCoctails
+                  );
+                  //меняем текст кнопки на длинный(на модалках он отличается)
+                  modalButtonTextChange(
+                    modalLikeBtn,
+                    'coctail-modal__like-coctail-btn'
+                  );
+                  // меняем так же копку добавления/удаления в избранное на главной странице
+                  const currentLikeButton = document.querySelector(
+                    `#${currentCoctailNumber}`
+                  );
+                  currentLikeButton.classList.toggle(
                     'coctails-section__like-button'
-                  )
-                ) {
-                  currentLikeButton.textContent = 'Add to';
-                } else {
-                  currentLikeButton.textContent = 'Remove';
-                }
-              });
+                  );
+                  currentLikeButton.classList.toggle(
+                    'coctails-section__dislike-button'
+                  );
+                  if (
+                    currentLikeButton.classList.contains(
+                      'coctails-section__like-button'
+                    )
+                  ) {
+                    currentLikeButton.textContent = 'Add to';
+                  } else {
+                    currentLikeButton.textContent = 'Remove';
+                  }
+                });
 
-              // открываем модалку
-              modalToggleHidden(
-                coctailModalBackdrop,
-                'coctails-section__coctail-modal-backdrop--is-hidden',
-                coctailModal,
-                'coctails-section__coctail-modal--is-hidden'
-              );
-
-              // вешаем на кнопку закрытия модалки функцию, которая закроет модалку
-              const closeCoctailModalBtn = document.querySelector(
-                '.coctail-modal__close-modal-btn'
-              );
-              closeCoctailModalBtn.addEventListener('click', () => {
+                // открываем модалку
                 modalToggleHidden(
                   coctailModalBackdrop,
                   'coctails-section__coctail-modal-backdrop--is-hidden',
                   coctailModal,
                   'coctails-section__coctail-modal--is-hidden'
                 );
-              });
 
-              // создаем список ингредиентов
-              createIngredients(coctail.drinks[0]);
-              const modalIngredients = document.querySelectorAll(
-                '.coctail-modal__ingredient'
-              );
+                // вешаем на кнопку закрытия модалки функцию, которая закроет модалку
+                const closeCoctailModalBtn = document.querySelector(
+                  '.coctail-modal__close-modal-btn'
+                );
+                closeCoctailModalBtn.addEventListener('click', () => {
+                  modalToggleHidden(
+                    coctailModalBackdrop,
+                    'coctails-section__coctail-modal-backdrop--is-hidden',
+                    coctailModal,
+                    'coctails-section__coctail-modal--is-hidden'
+                  );
+                });
 
-              // при клике на ингредиент
-              // забираем у бекенда его данные по его имени и создаем модалку
-              modalIngredients.forEach(elem => {
-                elem.addEventListener('click', event => {
-                  const currentingredientName = event.target.innerText;
-                  fetchCoctailOrIngredient(
-                    `https://www.thecocktaildb.com/api/json/v1/1/search.php?i=${currentingredientName}`
-                  )
-                    .then(newResponse => {
-                      const {
-                        strAlcohol,
-                        strDescription,
-                        strIngredient,
-                        strType,
-                      } = newResponse.ingredients[0];
+                // создаем список ингредиентов
+                createIngredients(coctail.drinks[0]);
+                const modalIngredients = document.querySelectorAll(
+                  '.coctail-modal__ingredient'
+                );
 
-                      // создаем изначальную разметку модалки ингредиента
-                      ingredientModalMarckup(
-                        ingredientModal,
-                        strIngredient,
-                        strDescription,
-                        strType,
-                        strAlcohol
-                      );
+                // при клике на ингредиент
+                // забираем у бекенда его данные по его имени и создаем модалку
+                modalIngredients.forEach(elem => {
+                  elem.addEventListener('click', event => {
+                    const currentingredientName = event.target.innerText;
+                    fetchCoctailOrIngredient(
+                      `https://www.thecocktaildb.com/api/json/v1/1/search.php?i=${currentingredientName}`
+                    )
+                      .then(newResponse => {
+                        const {
+                          strAlcohol,
+                          strDescription,
+                          strIngredient,
+                          strType,
+                        } = newResponse.ingredients[0];
 
-                      // создаём переменную кнопки "добавить в избранное" модалки ингредиента
-                      const ingredientModalLikeBtn = document.querySelector(
-                        '.ingredient-modal__like-ingredient-btn'
-                      );
+                        // создаем изначальную разметку модалки ингредиента
+                        ingredientModalMarckup(
+                          ingredientModal,
+                          strIngredient,
+                          strDescription,
+                          strType,
+                          strAlcohol
+                        );
 
-                      // проверяем есть ли ингредиент в избранном
-                      checkFavoriteOrNot(
-                        strIngredient,
-                        favoriteIngredients,
-                        'ingredient-modal__like-ingredient-btn',
-                        'ingredient-modal__dislike-ingredient-btn',
-                        'Remove from favorites',
-                        coctailNumber
-                      );
+                        // создаём переменную кнопки "добавить в избранное" модалки ингредиента
+                        const ingredientModalLikeBtn = document.querySelector(
+                          '.ingredient-modal__like-ingredient-btn'
+                        );
 
-                      // вешаем на кнопку "добавить в избранное" модалки ингредиента
-                      // функцию добавления/удаления в избранное
-                      ingredientModalLikeBtn.addEventListener(
-                        'click',
-                        event => {
-                          const currentItemlName = strIngredient;
-                          makeFavoriteOrNot(
-                            event,
-                            'ingredient-modal__like-ingredient-btn',
-                            'ingredient-modal__dislike-ingredient-btn',
-                            currentItemlName,
-                            favoriteIngredients
-                          );
-                          //меняем текст кнопки на длинный(на модалках он отличается)
+                        // проверяем есть ли ингредиент в избранном
+                        checkFavoriteOrNot(
+                          strIngredient,
+                          favoriteIngredients,
+                          'ingredient-modal__like-ingredient-btn',
+                          'ingredient-modal__dislike-ingredient-btn',
+                          'Remove from favorites',
+                          coctailNumber
+                        );
 
-                          modalButtonTextChange(
-                            ingredientModalLikeBtn,
-                            'ingredient-modal__like-ingredient-btn'
-                          );
-                        }
-                      );
-                      // делаем переменную кнопки закрытия модалки ингредиента
-                      const closeIngredientlModalBtn = document.querySelector(
-                        '.ingredient-modal__close-ingredient-btn'
-                      );
+                        // вешаем на кнопку "добавить в избранное" модалки ингредиента
+                        // функцию добавления/удаления в избранное
+                        ingredientModalLikeBtn.addEventListener(
+                          'click',
+                          event => {
+                            const currentItemlName = strIngredient;
+                            makeFavoriteOrNot(
+                              event,
+                              'ingredient-modal__like-ingredient-btn',
+                              'ingredient-modal__dislike-ingredient-btn',
+                              currentItemlName,
+                              favoriteIngredients
+                            );
+                            //меняем текст кнопки на длинный(на модалках он отличается)
 
-                      // открываем модалку
-                      modalToggleHidden(
-                        ingredientModalBackdrop,
-                        'coctails-section__ingredient-modal-backdrop--is-hidden',
-                        ingredientModal,
-                        'coctails-section__ingredient-modal--is-hidden'
-                      );
+                            modalButtonTextChange(
+                              ingredientModalLikeBtn,
+                              'ingredient-modal__like-ingredient-btn'
+                            );
+                          }
+                        );
+                        // делаем переменную кнопки закрытия модалки ингредиента
+                        const closeIngredientlModalBtn = document.querySelector(
+                          '.ingredient-modal__close-ingredient-btn'
+                        );
 
-                      // вешаем на кнопку закрытия модалки функцию, которая закроет модалку
-                      closeIngredientlModalBtn.addEventListener('click', () => {
+                        // открываем модалку
                         modalToggleHidden(
                           ingredientModalBackdrop,
                           'coctails-section__ingredient-modal-backdrop--is-hidden',
                           ingredientModal,
                           'coctails-section__ingredient-modal--is-hidden'
                         );
-                      });
-                    })
-                    .catch(alert.log);
+
+                        // вешаем на кнопку закрытия модалки функцию, которая закроет модалку
+                        closeIngredientlModalBtn.addEventListener(
+                          'click',
+                          () => {
+                            modalToggleHidden(
+                              ingredientModalBackdrop,
+                              'coctails-section__ingredient-modal-backdrop--is-hidden',
+                              ingredientModal,
+                              'coctails-section__ingredient-modal--is-hidden'
+                            );
+                          }
+                        );
+                      })
+                      .catch(alert.log);
+                  });
                 });
               });
-            });
-          }
+            }
+          });
         });
-      });
-    })
-    .catch(alert.log);
+      })
+      .catch(console.log);
+  }
 }
+mainFunction(
+  0,
+  'https://www.thecocktaildb.com/api/json/v1/1/random.php',
+  coctailsAmount
+);
+
 // КОНЕЦ ЦИКЛА
 // СПАСИБО ЗА ВНИМАНИЕ :)
