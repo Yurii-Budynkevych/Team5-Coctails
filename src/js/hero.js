@@ -49,11 +49,20 @@ return e.map(e => {
             return
         }
         if(innerWidth > 767){
-            item.forEach(e => {
-                if(!e.classList.contains('is-hover')){return}
-                e.classList.remove('is-hover')
-            })
-         
+
+
+            // item.forEach(e => {
+            //     if(!e.classList.contains('is-hover')){return}
+            //     e.classList.remove('is-hover')
+            // })
+        
+             try{
+            const removeTarget = document.querySelector('.is-hover');
+      
+            removeTarget.classList.remove("is-hover")
+            console.log(removeTarget);
+            item.classList.add("is-hover")
+        }catch{}
             console.log(hover);
             hover.classList.add("is-hover")
     
