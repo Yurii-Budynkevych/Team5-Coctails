@@ -1,0 +1,174 @@
+.coctails-section {
+  width: 320px;
+  margin: 0 auto;
+  position: relative;
+  @media (min-width: 768px) and (max-width: 1199.99px) {
+    width: 768px;
+  }
+  @media (min-width: 1200px) {
+    width: 1200px;
+  }
+}
+
+.coctails-section__title {
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 191%;
+  color: #202025;
+
+  text-align: center;
+  margin-bottom: 60px;
+  margin-top: 0;
+}
+
+.coctails-section__coctails-list {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.coctails-section__coctail {
+  list-style-type: none;
+  margin-bottom: 20px;
+}
+
+.coctails-section__coctail-container {
+  width: 282px;
+  border: 1px solid #fd5103;
+  border-radius: 4px;
+}
+
+.coctails-section__coctail-img {
+  width: 280px;
+  border-radius: 4px;
+}
+
+.coctails-section__coctail-name {
+  font-family: 'Roboto';
+  font-weight: 900;
+  font-size: 26px;
+  line-height: 162%;
+  color: #202025;
+
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 15px;
+}
+
+.coctails-section__button {
+  font-family: 'Roboto';
+  font-size: 14px;
+  line-height: 171%;
+  letter-spacing: 0.02em;
+
+  width: 110px;
+  height: 40px;
+  margin-left: 19px;
+  margin-right: 0;
+  margin-bottom: 25px;
+  border-radius: 4px;
+  position: relative;
+}
+
+.coctails-section__learn-button {
+  background-color: #fd5103;
+  color: #ffffff;
+  border: none;
+}
+
+.coctails-section__like-button,
+.coctails-section__dislike-button {
+  background-color: #ffffff;
+  color: #fd5103;
+  border: 1px solid #fd5103;
+  padding-right: 30px;
+}
+
+.ingredient-modal__like-ingredient-btn,
+.coctail-modal__like-coctail-btn,
+.coctail-modal__dislike-coctail-btn {
+  background-color: #fd5103;
+  border: 1px solid #fd5103;
+  color: #ffffff;
+}
+
+.coctails-section__like-button::before {
+  content: url(../images/add-like-heart.svg);
+  margin-left: 50px;
+  position: absolute;
+  top: 10;
+}
+
+.coctails-section__dislike-button::before {
+  content: url(../images/add-like-heart.svg);
+  margin-left: 60px;
+  position: absolute;
+  top: 10;
+}
+
+.empty-footer {
+  height: 110px;
+  background-color: #fd5103;
+}
+
+.coctails-section__ingredient-modal-backdrop,
+.coctails-section__coctail-modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  overflow-y: scroll;
+  z-index: 4;
+  &--is-hidden {
+    display: none;
+  }
+}
+
+.coctails-section__ingredient-modal-backdrop {
+  z-index: 9;
+}
+
+.coctails-section__ingredient-modal,
+.coctails-section__coctail-modal {
+  position: absolute;
+  overflow-y: none;
+  z-index: 5;
+
+  width: 320px;
+  padding: 40px 20px;
+
+  background-color: #fff;
+  &--is-hidden {
+    display: none;
+  }
+}
+
+.coctails-section__ingredient-modal {
+  z-index: 10;
+}
+
+.ingredient-modal__close-ingredient-btn,
+.coctail-modal__close-modal-btn {
+  position: absolute;
+  background-color: inherit;
+  border: none;
+  width: 32px;
+  height: 32px;
+  top: 16px;
+  right: 16px;
+  &::before {
+    content: url(../images/close-modal.svg);
+  }
+}
+
+.coctail-modal__ingredient {
+  border: none;
+  background-color: inherit;
+}
