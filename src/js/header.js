@@ -1,6 +1,7 @@
 'use strict';
 import debounce from 'lodash.debounce';
 import mainFunction from './coctails';
+const coctailsList = document.querySelector('.coctails-section__coctails-list');
 
 let arrayLength = 0;
 
@@ -20,7 +21,12 @@ function onInput(evt) {
     .then(response => {
       arrayLength = response.drinks.length;
       console.log(arrayLength);
-      mainFunction(1, `${BASE_URL}search.php?s=${serchQuery}`, arrayLength);
+      mainFunction(
+        1,
+        `${BASE_URL}search.php?s=${serchQuery}`,
+        arrayLength,
+        coctailsList
+      );
     });
 
   // getCocktails(serchQuery)

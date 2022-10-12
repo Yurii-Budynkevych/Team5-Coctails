@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8" />
@@ -12,13 +12,25 @@
 </head>
 
 <body>
+    <section class="coctails-section">
+  <h2 class="coctails-section__title">Favorite ingredients</h2>
+  <div class="coctails-section__box">
+    <ul class="favorite-ingredients-section__coctails-list"></ul>
+    <div class ="coctails-section__coctail-modal-backdrop coctails-section__coctail-modal-backdrop--is-hidden" >
+      <div
+      class="coctails-section__coctail-modal coctails-section__coctail-modal--is-hidden"
+    >
+  </div>
+    </div>
+    <div class ="coctails-section__ingredient-modal-backdrop coctails-section__ingredient-modal-backdrop--is-hidden" >
+      <div
+      class="coctails-section__ingredient-modal coctails-section__ingredient-modal--is-hidden"
+    >
+  </div>
+    </div>
+  <div class="empty-footer"></div>
+</section>
     <!-- JS -->
-    <script type="module" src="./js/header.js"></script>
-    <script type="module" src="./js/hero.js"></script>
-    <script type="module" src="./js/coctails.js"></script>
-    <script type="module" src="./js/search-results.js"></script>
-    <script type="module" src="./js/favorite-coctails.js"></script>
     <script type="module" src="./js/favorite-ingredients.js"></script>
-</body>
-
+  </body>
 </html>

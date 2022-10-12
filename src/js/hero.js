@@ -8,6 +8,7 @@ const refst = {
   heroItem: document.querySelectorAll('.hero-item'),
 };
 import mainFunction from './coctails';
+const coctailsList = document.querySelector('.coctails-section__coctails-list');
 
 let arrayLength = 0;
 
@@ -135,6 +136,6 @@ function cocktalis(name) {
     .then(response => {
       arrayLength = response.drinks.length;
       console.log(arrayLength);
-      mainFunction(1, URL, arrayLength);
+      mainFunction(1, URL, arrayLength, coctailsList);
     });
 }

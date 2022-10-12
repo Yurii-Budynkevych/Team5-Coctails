@@ -62,10 +62,10 @@ export const checkFavoriteOrNot = (
 ) => {
   //узнаём какой тип избранного проверяем - коктейль или ингредиент
   let currentFuncLikeBtn = '';
-  if (typeOfFavorites === favoriteCoctails) {
-    storageKey = 0;
-  } else if (typeOfFavorites === favoriteIngredients) {
+  if (typeOfFavorites === favoriteIngredients) {
     storageKey = 1;
+  } else if (typeOfFavorites === favoriteCoctails) {
+    storageKey = 0;
   }
   // если коктейль или игредиент находится в избранном
   if (
@@ -101,10 +101,10 @@ export const makeFavoriteOrNot = (
   typeOfFavorites
 ) => {
   //проверяем обрабатывается коктейль или ингредиент
-  if (typeOfFavorites === favoriteCoctails) {
-    storageKey = 0;
-  } else if (typeOfFavorites === favoriteIngredients) {
+  if (typeOfFavorites === favoriteIngredients) {
     storageKey = 1;
+  } else if (typeOfFavorites === favoriteCoctails) {
+    storageKey = 0;
   }
   // если событие словилось на кнопке "добавить в избранное",
   // то добавляем в память массив с названиями избранных коктейлей/ингредиентов
@@ -261,19 +261,28 @@ getCocktailsAmount(coctailsSection);
 // цикл делает столько итераций, сколько нужно отрисовать коктейлей
 //////////////////////////////////////////////////////////////////////////////////
 // НАЧАЛО ЦИКЛА
-export default function mainFunction(searchIn, searchLink, amount) {
-  coctailsList.innerHTML = '';
+export default function mainFunction(
+  searchIn,
+  searchLink,
+  amount,
+  mainMarkupPlace
+) {
+  if (searchIn < 2) {
+    mainMarkupPlace.innerHTML = '';
+  }
 
   for (let iteration = 0; iteration < amount; iteration += 1) {
     // забираем у бекенда рандомный коктейль
     fetchCoctailOrIngredient(searchLink)
       .then(newResponse => {
-        if (searchIn !== 0) {
+        if (searchIn === 1) {
           fetchCoctailOrIngredient(searchLink).then(newResponse => {
             coctailsAmount = newResponse.drinks.length;
           });
         }
-        console.log(coctailsAmount);
+        console.log(searchIn, searchLink, amount);
+        console.log(newResponse);
+        console.log(amount);
         // увеличиваем счетчик коклейлей на 1
         coctailNumber += 1;
         let coctailIterationNumber = 0;
@@ -285,8 +294,7 @@ export default function mainFunction(searchIn, searchLink, amount) {
           newResponse.drinks[coctailIterationNumber];
 
         // создаем разметку карточки
-        coctailCardMarkup(coctailsList, strDrink, strDrinkThumb);
-        // const { strDrinkThumb, strDrink } = newResponse.drinks[iteration];
+        coctailCardMarkup(mainMarkupPlace, strDrink, strDrinkThumb);
 
         // проверяем находится ли коктейль или ингредиент в избранном
         checkFavoriteOrNot(
@@ -437,10 +445,10 @@ export default function mainFunction(searchIn, searchLink, amount) {
                     )
                       .then(newResponse => {
                         const {
-                          strAlcohol,
-                          strDescription,
-                          strIngredient,
-                          strType,
+                          strAlcohol = '',
+                          strDescription = '',
+                          strIngredient = '',
+                          strType = '',
                         } = newResponse.ingredients[0];
 
                         // создаем изначальную разметку модалки ингредиента
@@ -525,11 +533,12 @@ export default function mainFunction(searchIn, searchLink, amount) {
       .catch(console.log);
   }
 }
-mainFunction(
-  0,
-  'https://www.thecocktaildb.com/api/json/v1/1/random.php',
-  coctailsAmount
-);
+// mainFunction(
+//   0,
+//   'https://www.thecocktaildb.com/api/json/v1/1/random.php',
+//   coctailsAmount,
+//   coctailsList
+// );
 
 // КОНЕЦ ЦИКЛА
 // СПАСИБО ЗА ВНИМАНИЕ :)
