@@ -11,6 +11,10 @@
   }
 }
 
+.ingredients-section__ingredient-buttons-container {
+  display: flex;
+}
+
 // @media (min-width: 768px) and (max-width: 1199.45px) {}
 .coctails-section__coctails-list,
 .favorite-coctails-section__coctails-list,
@@ -164,6 +168,11 @@
   position: relative;
   &:not(:last-child) {
     margin-right: 20px;
+    &:hover,
+    &:focus {
+      background: #f5f5f5;
+      color: #fd5103;
+    }
   }
 }
 
@@ -172,6 +181,11 @@
   background-color: #fd5103;
   color: #ffffff;
   border: none;
+  &:hover,
+  &:focus {
+    background: #f5f5f5;
+    color: #fd5103;
+  }
   @media (min-width: 768px) {
     width: 160px;
   }
@@ -188,6 +202,11 @@
   border: 1px solid #fd5103;
   border-radius: 4px;
   padding-right: 30px;
+  &:hover,
+  &:focus {
+    background: #f5f5f5;
+    fill: #f5f5f5;
+  }
 }
 
 .ingredient-modal__like-ingredient-btn,
@@ -200,6 +219,11 @@
   color: #ffffff;
   width: 185px;
   height: 48px;
+  &:hover,
+  &:focus {
+    background: #f5f5f5;
+    color: #fd5103;
+  }
   @media (min-width: 768px) {
     display: flex;
     margin-left: auto;
