@@ -20,8 +20,21 @@
       /></a>
       <ul class="list">
         <li><a class="link" href="./index.html">Home</a></li>
-        <li><a class="link" href="./favorite-coctails.html">Favorite</a></li>
-        <li><a class="link" href="./favorite-ingredients.html">Favorite</a></li>
+        <li>
+          <button class="favorite-btn-desctop" type="button">Favorite</button>
+          <ul class="list-box is-hidden">
+            <li class="list-item">
+              <a class="link" href="./favorite-coctails.html"
+                >Favorite cocktails</a
+              >
+            </li>
+            <li class="list-item">
+              <a class="link" href="./favorite-ingredients.html"
+                >Favorite ingredients</a
+              >
+            </li>
+          </ul>
+        </li>
       </ul>
       <div class="input-box">
         <div class="input-image-box-tablet">
@@ -51,27 +64,40 @@
       </button>
 
       <div class="header-mobile-menu">
-        <div class="input-box-mobile">
-          <div class="input-image-box">
-            <svg class="magnifying-glass">
-              <use href="./images/svg/header-sprite.svg#icon-bx_search-1"></use>
-            </svg>
+        <div class="box">
+          <div class="input-box-mobile">
+            <div class="input-image-box">
+              <svg class="magnifying-glass">
+                <use
+                  href="./images/svg/header-sprite.svg#icon-bx_search-1"
+                ></use>
+              </svg>
+            </div>
+            <input
+              class="header-input-mobile"
+              type="text"
+              placeholder="Search"
+            />
           </div>
-          <input class="header-input-mobile" type="text" placeholder="Search" />
+          <ul class="mobile-list">
+            <li><a class="mobile-link" href="./index.html">Home</a></li>
+            <li>
+              <button type="button" class="mobile-link favorite favorite-btn">
+                Favorite
+              </button>
+            </li>
+            <li class="is-hidden">
+              <a class="mobile-link" href="./favorite-coctails.html"
+                >Favorite cocktails</a
+              >
+            </li>
+            <li class="is-hidden">
+              <a class="mobile-link" href="./favorite-ingredients.html"
+                >Favorite ingredients</a
+              >
+            </li>
+          </ul>
         </div>
-        <ul class="mobile-list">
-          <li><a class="mobile-link" href="./index.html">Home</a></li>
-          <li>
-            <a class="mobile-link favorite" href="./favorite-coctails.html"
-              >Favorite</a
-            >
-          </li>
-          <li>
-            <a class="mobile-link" href="./favorite-ingredients.html"
-              >Favorite</a
-            >
-          </li>
-        </ul>
       </div>
     </nav>
   </div>
