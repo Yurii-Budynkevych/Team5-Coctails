@@ -85,7 +85,7 @@ html {
   }
   .hero{
     display: flex;
-    padding-top: 40px;
+    padding-top: 101px;
     padding-bottom: 60px;
     &__box {
       margin-right: auto;
@@ -132,6 +132,16 @@ html {
           display: flex;
         }
   }
+
+  .coctails-section__coctails-img{
+    
+    width: 345px;
+    height: 380px;
+    background-size: cover;
+    background-image: url(../images/photo.wh1200.png);
+   
+   
+  }
   }
   
   
@@ -141,7 +151,7 @@ html {
   }
   .hero{
     display: flex;
-    padding-top: 68px;
+    padding-top: 132px;
     padding-bottom: 60px;
   
   &__box{
@@ -194,66 +204,176 @@ html {
       display: flex;
   }
   }
-  }
-  
-  @media screen and (max-width: 767px){
-    .container {
-        width: 320px;
-    }
-    .hero{
-      padding-top: 60px;
-      padding-bottom: 40px;
-  
-      &-list {
-        margin-top: 40px;
-        }
-        &-item{
-          width: 24px;
-          height: 25px;
-   
-        }
-        &-title{
-          margin-bottom: 28px;
-          font-weight: 600;
-          font-size: 22px;
-          line-height: 42px;
-        }
-        &-text{
-         
-        margin-top: 28px;
-        
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 28px;
-          /* identical to box height, or 156% */
-          letter-spacing: 0.02em;
-          opacity: 0.8;
-        }
-      &-container{
-        width: 300px;
-        height: 368px;
-        background-size: cover;
-      background-image: url(../images/delicious-sangria-cocktail-w768px.png);
-      transform: matrix(1, 0, 0, 1, 0, 0);
-      
-      }
-      &-div {
+  .coctails-section__coctails-img{
     
-    display: flex;
-  justify-content: center;
+    width: 345px;
+    height: 380.74px;
+    background-size: cover;
+    background-image: url(../images/photo.wh1200.png);
+   
+   
+  }
+  }
+
+    @media screen and (max-width: 767px){
+      .container {
+          width: 320px;
       }
-  
-      &-select{
-        width: 93px;
-        height: 34px;
-  
-        &:hover{
-          color: #FD5103;
+      .hero{
+        padding-top: 60px;
+        padding-bottom: 40px;
+    
+        &-list {
+          margin-top: 40px;
+          }
+          &-item{
+            width: 24px;
+            height: 25px;
+     
+          }
+          &-title{
+            margin-bottom: 28px;
+            font-weight: 600;
+            font-size: 22px;
+            line-height: 42px;
+          }
+          &-text{
+           
+          margin-top: 28px;
+          
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 28px;
+            /* identical to box height, or 156% */
+            letter-spacing: 0.02em;
+            opacity: 0.8;
+          }
+        &-container{
+          width: 300px;
+          height: 368px;
+          background-size: cover;
+        background-image: url(../images/delicious-sangria-cocktail-w768px.png);
+        transform: matrix(1, 0, 0, 1, 0, 0);
+        
         }
+        &-div {
+          display: block;
+          display: flex;
+      align-items: center;
+      flex-direction: column;
+      
+          
+        justify-content: center;
+        }
+        &-boxList{
+          width: 93px;
+          height: 34px;
+          border: 1px solid #FD5103;
+          border-radius: 4px;
+          justify-content: space-between;
+          display: flex;
+          flex-direction: row;
+           align-items: center; 
+          padding: 10px;
+          box-sizing: border-box;
+      
+          &:hover{
+            background-color: #FD5103;
+            color: beige;
+              }
+          }
+          &-button-list{
+    
+          }
+          &-select{
+           
+            height: 84px;
+          overflow-y: scroll;
+          }
+          .is-hiden-select{
+            display: none;
+          }
+      .is-hden-select_display {
+        display: flex;
       }
+          .hero-select::-webkit-scrollbar{
+            position: absolute;
+            transform: translateX(30px);
+            width: 2px;
+          
+          }
+    
+          .hero-list__ul {
+          // flex-direction: row;
+          border-radius: 4px;
+            border: 1px solid #FD5103;
+          }
+    
+          .hero-list__ulItem {
+       
+            width: 6.6px;
+          }
+     
+          .hero-select::-webkit-scrollbar-thumb{
+            background-clip: content-box;
+            height: 34px;
+            background: #5F6775;
+            border-radius: 4px;
+          
+          }
+          &-item{
+            width: 83px;
+          height: 28px;
+          
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 700;
+          font-size: 10px;
+          line-height: 1.5%;
+          /* identical to box height */
+          
+          
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          padding: 4px 10px;
+          gap: 20px;
+       
+          color: #5F6775;
+       
+          
+          
+          }
+          &-svg{
+    width: 20px;
+    height: 20px;
+    // fill: #FD5103;
+    
+    &:hover {
+    fill: rgb(245, 245, 245);
     }
+          }
+    
+      }
+      // .coctails-section__coctails-img-div{
+      //   display: flex;
+      //   align-items: center;
+    
+      // }
+      .coctails-section__coctails-img{
+    
+        width: 280px;
+        height: 308px;
+        background-size: cover;
+        background-image: url(../images/photo2x.png);
+       
+       
+      }
+      }
+    
+    .is-hden{
+      display: none;
     }
-  
   
     .is-hover{
       color: #FD5103;

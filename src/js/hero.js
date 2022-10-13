@@ -4,15 +4,27 @@ const refst = {
   heroTitle: document.querySelector('.hero-text'),
   hero: document.querySelector('.hero'),
   select: document.querySelector('.hero-select'),
+
+
   isHiden: document.querySelector('.is-hiden'),
-  heroItem: document.querySelectorAll('.hero-item'),
+  coctailTitel: document.querySelector('.coctails-section__title'),
+  cocktalisTitel: document.querySelector('.coctails-section__coctails-list'),
+
+  herospan : document.querySelector('.hero-span'),
+  heroBox : document.querySelector('.hero-div'),
+  heroSelect : document.querySelector('.hero-boxList'),
+  heroListUl:document.querySelector('.hero-list__ul'),
+ 
+  headerinput:document.querySelector('.header-input'),
 };
 import mainFunction from './coctails';
 const coctailsList = document.querySelector('.coctails-section__coctails-list');
 
 let arrayLength = 0;
 
-const { heroList, heroTitle, hero, select, isHiden, heroItem } = refst;
+const { heroList, heroTitle, hero, select, isHiden, 
+  heroItem ,headerinput,herospan,coctailTitel,cocktalisTitel,heroBox,
+  heroSelect,heroListUl} = refst;
 
 const heroTitleImg = () => {
   return `<div class="hero-container">
@@ -66,41 +78,36 @@ const arrr = [
   '0',
 ];
 
+
 function creaitMarkap(e) {
   return e.map(e => {
-    return `<option class=hero-item value=${e}>${e}</option>`;
+    return `<li class=hero-item value=${e} id=${e}>${e}</li>`;
   });
 }
 
 function clickHeroTitel(e) {
+  headerinput.value = " "
+
+
   const target = e.target.dataset.name;
   const hover = e.target;
   const item = e.currentTarget.querySelectorAll('.hero-button');
-  if (innerWidth < 767) {
-    const hoverTarget = e.target.value;
-    cocktalis(hoverTarget).then(data => {
-      console.log(data);
-    });
-  }
   if (!target) {
     return;
   }
   if (innerWidth > 767) {
-    // item.forEach(e => {
-    //     if(!e.classList.contains('is-hover')){return}
-    //     e.classList.remove('is-hover')
-    // })
+    item.forEach(e => {
+        if(!e.classList.contains('is-hover')){return}
+        e.classList.remove('is-hover')
+    })
+    // try {
+    //   const removeTarget = document.querySelector('.is-hover');
+    //   removeTarget.classList.remove('is-hover')
+    //   item.classList.add('is-hover');
+    // } catch {}
+ 
 
-    try {
-      const removeTarget = document.querySelector('.is-hover');
-
-      removeTarget.classList.remove('is-hover');
-      console.log(removeTarget);
-      item.classList.add('is-hover');
-    } catch {}
-    console.log(hover);
     hover.classList.add('is-hover');
-
     cocktalis(target);
   }
 }
@@ -121,6 +128,39 @@ if (innerWidth < 767) {
   isHiden.classList.remove('is-hiden');
   heroTitle.insertAdjacentHTML('beforebegin', heroWidth);
   select.insertAdjacentHTML('beforeend', hiden.join(''));
+
+  hero.addEventListener("click", heroSelectA)
+
+  function heroSelectA(e) {
+      const targetMo = e.target
+console.log(targetMo !== heroSelect);
+      if(targetMo !== heroSelect){
+        heroListUl.classList.remove("is-hiden-select")
+        heroListUl.classList.add("is-hden-select_display")
+      }else{
+        heroListUl.classList.add("is-hiden-select")
+        heroListUl.classList.remove("is-hden-select_display")
+      }
+      // if(targetMo === heroSelect){
+      //   heroListUl.classList.add("is-hiden-select")
+      //   heroListUl.classList.remove("is-hden-select_display")
+      // }else{
+      //   heroListUl.classList.remove("is-hiden-select")
+      //   heroListUl.classList.add("is-hden-select_display")
+      // }
+    
+      const targetValue = e.target;
+         if(targetValue){
+  const targetId = e.target.id
+console.log(targetValue);
+     if(targetId){;
+
+cocktalis(targetId).then(e =>{;
+  herospan.textContent = targetId
+})
+     }
+ }
+ }
 }
 
 function cocktalis(name) {
@@ -134,7 +174,32 @@ function cocktalis(name) {
       return response.json();
     })
     .then(response => {
+      console.log(response);
+         const {drinks} = response
+      if (drinks === null) {
+       return responsNull()
+      } else{
+       cocktalisTitel.innerHTML =  '';
+       coctailTitel.textContent = `Searching results`;
       arrayLength = response.drinks.length;
       mainFunction(1, URL, arrayLength, coctailsList);
-    });
+      }
+     });
 }
+
+
+function responsNull() {
+  cocktalisTitel.innerHTML =  '';
+const sorryCocktaili = sorryCocktailFor();
+coctailTitel.textContent = `Sorry, we didn't find any cocktail for you`;
+  cocktalisTitel.innerHTML =  sorryCocktaili;
+
+}
+
+
+function sorryCocktailFor() {
+  return `<div class='coctails-section__coctails-img-div'>
+  <div class='coctails-section__coctails-img'></div>
+  </div>`
+}
+
