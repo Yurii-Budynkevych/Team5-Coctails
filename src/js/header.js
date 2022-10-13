@@ -30,6 +30,7 @@ function onInput(evt) {
         coctailsList
       );
     });
+     clerrElement()
 }
 // ______________________________________________________
 // menu btn
@@ -60,4 +61,13 @@ function onFavoriteDescktopClick() {
   refs.list.forEach(el => {
     el.classList.toggle('is-hidden');
   });
+}
+
+
+
+function clerrElement() {
+  const removeTarget = document.querySelector('.is-hover');
+if(refs.input.value){
+removeTarget.classList.remove('is-hover')
+}
 }
