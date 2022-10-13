@@ -17,6 +17,7 @@ const refs = {
 refs.input.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
 function onInput(evt) {
   let serchQuery = evt.target.value;
+ 
   fetch(`${BASE_URL}search.php?s=${serchQuery}`)
     .then(response => response.json())
     .then(response => {

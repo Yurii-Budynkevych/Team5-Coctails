@@ -6,13 +6,16 @@ const refst = {
   select: document.querySelector('.hero-select'),
   isHiden: document.querySelector('.is-hiden'),
   heroItem: document.querySelectorAll('.hero-item'),
+
+  // input: document.querySelector('.header-input'),
+  headerinput:document.querySelector('.header-input'),
 };
 import mainFunction from './coctails';
 const coctailsList = document.querySelector('.coctails-section__coctails-list');
 
 let arrayLength = 0;
 
-const { heroList, heroTitle, hero, select, isHiden, heroItem } = refst;
+const { heroList, heroTitle, hero, select, isHiden, heroItem ,headerinput} = refst;
 
 const heroTitleImg = () => {
   return `<div class="hero-container">
@@ -66,6 +69,7 @@ const arrr = [
   '0',
 ];
 
+
 function creaitMarkap(e) {
   return e.map(e => {
     return `<option class=hero-item value=${e}>${e}</option>`;
@@ -73,6 +77,9 @@ function creaitMarkap(e) {
 }
 
 function clickHeroTitel(e) {
+  headerinput.value = " "
+
+
   const target = e.target.dataset.name;
   const hover = e.target;
   const item = e.currentTarget.querySelectorAll('.hero-button');
@@ -94,11 +101,13 @@ function clickHeroTitel(e) {
     try {
       const removeTarget = document.querySelector('.is-hover');
 
+   
       removeTarget.classList.remove('is-hover');
-      console.log(removeTarget);
+     
       item.classList.add('is-hover');
     } catch {}
     console.log(hover);
+
     hover.classList.add('is-hover');
 
     cocktalis(target);
