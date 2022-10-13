@@ -133,21 +133,21 @@ if (innerWidth < 767) {
 
   function heroSelectA(e) {
       const targetMo = e.target
-console.log(targetMo);
-      // if(targetMo !== heroBox){
-      //   heroListUl.classList.remove("is-hiden-select")
-      //   heroListUl.classList.add("is-hden-select_display")
-      // }else{
-      //   heroListUl.classList.add("is-hiden-select")
-      //   heroListUl.classList.remove("is-hden-select_display")
-      // }
-      if(targetMo === heroBox){
-        heroListUl.classList.add("is-hiden-select")
-        heroListUl.classList.remove("is-hden-select_display")
-      }else{
+console.log(targetMo !== heroSelect);
+      if(targetMo !== heroSelect){
         heroListUl.classList.remove("is-hiden-select")
         heroListUl.classList.add("is-hden-select_display")
+      }else{
+        heroListUl.classList.add("is-hiden-select")
+        heroListUl.classList.remove("is-hden-select_display")
       }
+      // if(targetMo === heroSelect){
+      //   heroListUl.classList.add("is-hiden-select")
+      //   heroListUl.classList.remove("is-hden-select_display")
+      // }else{
+      //   heroListUl.classList.remove("is-hiden-select")
+      //   heroListUl.classList.add("is-hden-select_display")
+      // }
     
       const targetValue = e.target;
          if(targetValue){

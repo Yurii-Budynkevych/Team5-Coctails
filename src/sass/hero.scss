@@ -85,7 +85,7 @@ html {
   }
   .hero{
     display: flex;
-    padding-top: 40px;
+    padding-top: 101px;
     padding-bottom: 60px;
     &__box {
       margin-right: auto;
@@ -151,7 +151,7 @@ html {
   }
   .hero{
     display: flex;
-    padding-top: 68px;
+    padding-top: 132px;
     padding-bottom: 60px;
   
   &__box{
@@ -347,7 +347,7 @@ html {
           &-svg{
     width: 20px;
     height: 20px;
-    fill: #FD5103;
+    // fill: #FD5103;
     
     &:hover {
     fill: rgb(245, 245, 245);
