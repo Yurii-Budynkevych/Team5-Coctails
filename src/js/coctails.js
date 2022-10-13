@@ -149,7 +149,7 @@ const createIngredients = coctail => {
   const ingredientsList = document.querySelector('.coctail-modal__list');
   for (const key in coctail) {
     if (key.includes('strIngredient') && coctail[key] !== null) {
-      ingredientsList.innerHTML += `<li><button class="coctail-modal__ingredient" type="button">${coctail[key]}</button></li>`;
+      ingredientsList.innerHTML += `<li class ="coctail-modal__list-item"><button class="coctail-modal__ingredient" type="button">${coctail[key]}</button></li>`;
     }
   }
 };
@@ -189,17 +189,33 @@ const coctailModalMarckup = (
   coctailImgLink,
   coctailInstructions
 ) => {
-  marckupPlace.innerHTML = `<h3 class = "coctail-modal__coctail-name" >${coctailName}</h3>
-                  <h4 class = "coctail-modal__coctail-description">Instractions:</h4>
+  if (getComputedStyle(coctailsSection).width === '320px') {
+    marckupPlace.innerHTML = `<h3 class = "coctail-modal__coctail-name" >${coctailName}</h3>
+                  <h4 class = "coctail-modal__coctail-description">Instructions:</h4>
                   <p class = "coctail-modal__coctail-instruction">${coctailInstructions}</p>
                   <img class='coctails-section__coctail-img' src="${coctailImgLink}" alt="${coctailName}">
-                  <h4 class = "coctail-modal__coctail-description">Ingredients</h4>
-                  <p>Per cocktail</p>
+                  <h4 class = "coctail-modal__coctail-bottom-description">Ingredients</h4>
+                  <p class = "coctail-modal__per-class-text">Per cocktail</p>
                   <ul class = "coctail-modal__list">
                   </ul>
                   <button class = "coctail-modal__like-coctail-btn" type="button" id="ModalLikeCoctailBtn">Add to favorite</button>
-                  <button class = "coctail-modal__close-modal-btn" type="button"></button>
-                </div>`;
+                  <button class = "coctail-modal__close-modal-btn" type="button"></button>`;
+  } else {
+    marckupPlace.innerHTML = `
+                  <div  class = "coctail-modal__flex-container">
+                  <img class='coctails-section__coctail-img coctail-modal__img' src="${coctailImgLink}" alt="${coctailName}">
+                  <div class = "coctail-modal__top-container">
+                    <h3 class = "coctail-modal__coctail-name" >${coctailName}</h3>
+                    <h4 class = "coctail-modal__coctail-bottom-description">Ingredients</h4>
+                    <p class = "coctail-modal__per-class-text">Per cocktail</p>
+                    <ul class = "coctail-modal__list"></ul>
+                  </div>
+                  </div>
+                  <h4 class = "coctail-modal__coctail-description">Instructions:</h4>
+                  <p class = "coctail-modal__coctail-instruction">${coctailInstructions}</p>
+                  <button class = "coctail-modal__like-coctail-btn" type="button" id="ModalLikeCoctailBtn">Add to favorite</button>
+                  <button class = "coctail-modal__close-modal-btn" type="button"></button>`;
+  }
 };
 
 // функция разметки модалки ингредиента
@@ -214,10 +230,10 @@ export const ingredientModalMarckup = (
   if (!ingType) ingType = 'sorry, we have no data :(';
   if (!ingAlcohol) ingAlcohol = 'sorry, we have no data :(';
   marckupPlace.innerHTML = `<h3 class = "coctail-modal__coctail-name">${ingName}</h3>
-                        <p class = "coctail-modal__coctail-instruction">${ingDescription}</p>
+                        <div class= "ingredient-modal__border-box"><p class = "coctail-modal__coctail-instruction">${ingDescription}</p></div>
                         <ul class = "coctail-modal__list">
-                          <li><p class = "coctail-modal__list-item-data">Type: ${ingType}</p></li>
-                          <li><p  class = "coctail-modal__list-item-data">Alkoholic? - ${ingAlcohol}</p></li>
+                          <li class = "coctail-modal__list-item"><p class = "coctail-modal__ingredient">Type: ${ingType}</p></li>
+                          <li class = "coctail-modal__list-item"><p  class = "coctail-modal__ingredient">Alkoholic? - ${ingAlcohol}</p></li>
                         </ul>
                         <button class = "ingredient-modal__like-ingredient-btn" type="button" id="ModalLikeIngredientBtn">Add to favorite</button>
                         <button class = "ingredient-modal__close-ingredient-btn" type="button"></button>
@@ -416,7 +432,15 @@ export default function mainFunction(
                   coctailModal,
                   'coctails-section__coctail-modal--is-hidden'
                 );
-
+                // // вешаем на бекдроп функцию, которая закроет модалку
+                // coctailModalBackdrop.addEventListener('click', () => {
+                //   modalToggleHidden(
+                //     coctailModalBackdrop,
+                //     'coctails-section__coctail-modal-backdrop--is-hidden',
+                //     coctailModal,
+                //     'coctails-section__coctail-modal--is-hidden'
+                //   );
+                // });
                 // вешаем на кнопку закрытия модалки функцию, которая закроет модалку
                 const closeCoctailModalBtn = document.querySelector(
                   '.coctail-modal__close-modal-btn'
@@ -513,6 +537,17 @@ export default function mainFunction(
 
                         // вешаем на кнопку закрытия модалки функцию, которая закроет модалку
                         closeIngredientlModalBtn.addEventListener(
+                          'click',
+                          () => {
+                            modalToggleHidden(
+                              ingredientModalBackdrop,
+                              'coctails-section__ingredient-modal-backdrop--is-hidden',
+                              ingredientModal,
+                              'coctails-section__ingredient-modal--is-hidden'
+                            );
+                          }
+                        );
+                        ingredientModalBackdrop.addEventListener(
                           'click',
                           () => {
                             modalToggleHidden(
