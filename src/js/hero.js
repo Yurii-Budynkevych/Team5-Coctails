@@ -135,7 +135,6 @@ function cocktalis(name) {
     })
     .then(response => {
       arrayLength = response.drinks.length;
-      console.log(arrayLength);
       mainFunction(1, URL, arrayLength, coctailsList);
     });
 }

@@ -20,7 +20,6 @@ function onInput(evt) {
     .then(response => response.json())
     .then(response => {
       arrayLength = response.drinks.length;
-      console.log(arrayLength);
       mainFunction(
         1,
         `${BASE_URL}search.php?s=${serchQuery}`,
