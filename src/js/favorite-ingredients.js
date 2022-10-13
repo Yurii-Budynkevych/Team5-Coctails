@@ -47,13 +47,16 @@ for (i; i < arrayLength; i += 1) {
   ).then(newResponse => {
     ingredientNumber += 1;
     const { ingredients } = newResponse;
-    const { strIngredient, strType } = ingredients[0];
+    let { strIngredient, strType } = ingredients[0];
+    if (!strType) strType = 'No ingredient type data :(';
     favoriteIngredientsList.innerHTML += `<li class="favorite-ingredients-section__ingredient">
         <div class="favorite-ingredients-section__ingredient-card">
           <h3 class="favorite-ingredients-section__card-title">${strIngredient}</h3>
           <p class="favorite-ingredients-section__card-type">${strType}</p>
-          <button class="favorite-ingredients-section__button favorite-ingredients-section__learn-button" type="button">Learn more</button>
-                    <button class="favorite-ingredients-section__button favorite-ingredients-section__favorite-button favorite-ingredients-section__like-button" type="button" id="likeBtn${ingredientNumber}">Add to</button>
+          <div class="ingredients-section__ingredient-buttons-container">
+            <button class="favorite-ingredients-section__button favorite-ingredients-section__learn-button" type="button">Learn more</button>
+            <button class="favorite-ingredients-section__button favorite-ingredients-section__favorite-button favorite-ingredients-section__like-button" type="button" id="likeBtn${ingredientNumber}">Add to</button>
+          </div>
         </div>
       </li>`;
 
