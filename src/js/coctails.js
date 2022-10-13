@@ -1,37 +1,34 @@
 'use strict';
 // РАБОЧАЯ ВЕРСИЯ
-export const coctailsList = document.querySelector(
-  '.coctails-section__coctails-list'
-);
-export const coctailsSection = document.querySelector('.coctails-section');
-export const coctailModal = document.querySelector(
-  '.coctails-section__coctail-modal'
-);
-export const coctailModalBackdrop = document.querySelector(
+const coctailsList = document.querySelector('.coctails-section__coctails-list');
+const coctailsSection = document.querySelector('.coctails-section');
+const coctailModal = document.querySelector('.coctails-section__coctail-modal');
+const coctailModalBackdrop = document.querySelector(
   '.coctails-section__coctail-modal-backdrop'
 );
-export const ingredientModal = document.querySelector(
+const ingredientModal = document.querySelector(
   '.coctails-section__ingredient-modal'
 );
-export const ingredientModalBackdrop = document.querySelector(
+const ingredientModalBackdrop = document.querySelector(
   '.coctails-section__ingredient-modal-backdrop'
 );
 
 // переменная для подсчета к-ва коктейлей, которые нужно отрисовать
-export let coctailsAmount = 0;
+let coctailsAmount = 0;
 // переменная для идентификации кнопок коктейля
-export let coctailNumber = 0;
+let coctailNumber = 0;
 // переменная для определения типа добавляемого в избранное(коктейль или ингредиент)
-export let storageKey = 0;
+let storageKey = 0;
 
-export let searchIn = 0;
+let searchIn = 0;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //                   НАЧАЛО ФУНКЦИЙ
 
 // функция, которая считает количество коктейлей,
 // которые нужно отрисовать в зависимости от разрешения экрана
-export const getCocktailsAmount = section => {
+const getCocktailsAmount = section => {
+  if (!section) return;
   const coctailsSectionStyles = getComputedStyle(section);
   if (coctailsSectionStyles.width === '320px') {
     coctailsAmount = 3;
@@ -54,18 +51,18 @@ export const fetchCoctailOrIngredient = async link => {
 // и меняет кнопку коктейля на "добавить в избранное" или "убрать из избранного"
 export const checkFavoriteOrNot = (
   coctailName,
-  typeOfFavorites,
   likeBtn,
   dislikeBtn,
   text,
-  coctailNumber
+  coctailNumber,
+  type
 ) => {
   //узнаём какой тип избранного проверяем - коктейль или ингредиент
   let currentFuncLikeBtn = '';
-  if (typeOfFavorites === favoriteCoctails) {
-    storageKey = 0;
-  } else if (typeOfFavorites === favoriteIngredients) {
+  if (type === 'Ingredients') {
     storageKey = 1;
+  } else if (type === 'Coctails') {
+    storageKey = 0;
   }
   // если коктейль или игредиент находится в избранном
   if (
@@ -98,13 +95,14 @@ export const makeFavoriteOrNot = (
   likeButton,
   dislikeButton,
   currentItemlName,
-  typeOfFavorites
+  typeOfFavorites,
+  type
 ) => {
   //проверяем обрабатывается коктейль или ингредиент
-  if (typeOfFavorites === favoriteCoctails) {
-    storageKey = 0;
-  } else if (typeOfFavorites === favoriteIngredients) {
+  if (type === 'Ingredients') {
     storageKey = 1;
+  } else if (type === 'Coctails') {
+    storageKey = 0;
   }
   // если событие словилось на кнопке "добавить в избранное",
   // то добавляем в память массив с названиями избранных коктейлей/ингредиентов
@@ -147,7 +145,7 @@ export const modalToggleHidden = (
 };
 
 // функция создания списка ингредиентов
-export const createIngredients = coctail => {
+const createIngredients = coctail => {
   const ingredientsList = document.querySelector('.coctail-modal__list');
   for (const key in coctail) {
     if (key.includes('strIngredient') && coctail[key] !== null) {
@@ -167,7 +165,7 @@ export const modalButtonTextChange = (button, buttonClass) => {
 
 // функция добавляет разметку карточки коктейля из текущей итерации цикла
 //с кнопкой "добавить в избранное"
-export const coctailCardMarkup = (
+const coctailCardMarkup = (
   markupPlace = '',
   cocktailName = '',
   cocktailImgLink = ''
@@ -185,7 +183,7 @@ export const coctailCardMarkup = (
 };
 
 // функция разметки модалки коктейля
-export const coctailModalMarckup = (
+const coctailModalMarckup = (
   marckupPlace,
   coctailName,
   coctailImgLink,
@@ -261,19 +259,27 @@ getCocktailsAmount(coctailsSection);
 // цикл делает столько итераций, сколько нужно отрисовать коктейлей
 //////////////////////////////////////////////////////////////////////////////////
 // НАЧАЛО ЦИКЛА
-export default function mainFunction(searchIn, searchLink, amount) {
-  coctailsList.innerHTML = '';
+export default function mainFunction(
+  searchIn,
+  searchLink,
+  amount,
+  mainMarkupPlace
+) {
+  if (!mainMarkupPlace) return;
+  if (searchIn < 2 && mainMarkupPlace) {
+    mainMarkupPlace.innerHTML = '';
+  }
 
   for (let iteration = 0; iteration < amount; iteration += 1) {
     // забираем у бекенда рандомный коктейль
     fetchCoctailOrIngredient(searchLink)
       .then(newResponse => {
-        if (searchIn !== 0) {
+        if (searchIn === 1) {
           fetchCoctailOrIngredient(searchLink).then(newResponse => {
             coctailsAmount = newResponse.drinks.length;
           });
         }
-        console.log(coctailsAmount);
+
         // увеличиваем счетчик коклейлей на 1
         coctailNumber += 1;
         let coctailIterationNumber = 0;
@@ -285,17 +291,16 @@ export default function mainFunction(searchIn, searchLink, amount) {
           newResponse.drinks[coctailIterationNumber];
 
         // создаем разметку карточки
-        coctailCardMarkup(coctailsList, strDrink, strDrinkThumb);
-        // const { strDrinkThumb, strDrink } = newResponse.drinks[iteration];
+        coctailCardMarkup(mainMarkupPlace, strDrink, strDrinkThumb);
 
         // проверяем находится ли коктейль или ингредиент в избранном
         checkFavoriteOrNot(
           strDrink,
-          favoriteCoctails,
           'coctails-section__like-button',
           'coctails-section__dislike-button',
           'Remove',
-          coctailNumber
+          coctailNumber,
+          'Coctails'
         );
 
         // выбираем все созданные карточки коктейлей(вне зависимости от итерации)
@@ -316,7 +321,8 @@ export default function mainFunction(searchIn, searchLink, amount) {
               'coctails-section__like-button',
               'coctails-section__dislike-button',
               currentItemlName,
-              favoriteCoctails
+              favoriteCoctails,
+              'Coctails'
             );
 
             // при нажатии на кнопку "узнать больше" на коктейле
@@ -342,12 +348,14 @@ export default function mainFunction(searchIn, searchLink, amount) {
                 } = coctail.drinks[0];
 
                 // создаем изначальную разметку модалки
-                coctailModalMarckup(
-                  coctailModal,
-                  strDrink,
-                  strDrinkThumb,
-                  strInstructions
-                );
+                if (coctailModal) {
+                  coctailModalMarckup(
+                    coctailModal,
+                    strDrink,
+                    strDrinkThumb,
+                    strInstructions
+                  );
+                }
 
                 // создаём переменную текущей кнопки "добавить в избранное"
                 const modalLikeBtn = document.querySelector(
@@ -358,11 +366,11 @@ export default function mainFunction(searchIn, searchLink, amount) {
                 // меняем текст кнопки в зависимости от того есть или нет
                 checkFavoriteOrNot(
                   strDrink,
-                  favoriteCoctails,
                   'coctail-modal__like-coctail-btn',
                   'coctail-modal__dislike-coctail-btn',
                   'Remove from favorites',
-                  coctailNumber
+                  coctailNumber,
+                  'Coctails'
                 );
 
                 // вешаем слушателя события добавления/удаления в избранные
@@ -372,7 +380,8 @@ export default function mainFunction(searchIn, searchLink, amount) {
                     'coctail-modal__like-coctail-btn',
                     'coctail-modal__dislike-coctail-btn',
                     currentItemlName,
-                    favoriteCoctails
+                    favoriteCoctails,
+                    'Coctails'
                   );
                   //меняем текст кнопки на длинный(на модалках он отличается)
                   modalButtonTextChange(
@@ -437,10 +446,10 @@ export default function mainFunction(searchIn, searchLink, amount) {
                     )
                       .then(newResponse => {
                         const {
-                          strAlcohol,
-                          strDescription,
-                          strIngredient,
-                          strType,
+                          strAlcohol = '',
+                          strDescription = '',
+                          strIngredient = '',
+                          strType = '',
                         } = newResponse.ingredients[0];
 
                         // создаем изначальную разметку модалки ингредиента
@@ -460,11 +469,11 @@ export default function mainFunction(searchIn, searchLink, amount) {
                         // проверяем есть ли ингредиент в избранном
                         checkFavoriteOrNot(
                           strIngredient,
-                          favoriteIngredients,
                           'ingredient-modal__like-ingredient-btn',
                           'ingredient-modal__dislike-ingredient-btn',
                           'Remove from favorites',
-                          coctailNumber
+                          coctailNumber,
+                          'Ingredients'
                         );
 
                         // вешаем на кнопку "добавить в избранное" модалки ингредиента
@@ -478,7 +487,8 @@ export default function mainFunction(searchIn, searchLink, amount) {
                               'ingredient-modal__like-ingredient-btn',
                               'ingredient-modal__dislike-ingredient-btn',
                               currentItemlName,
-                              favoriteIngredients
+                              favoriteIngredients,
+                              'Ingredients'
                             );
                             //меняем текст кнопки на длинный(на модалках он отличается)
 
@@ -528,7 +538,8 @@ export default function mainFunction(searchIn, searchLink, amount) {
 mainFunction(
   0,
   'https://www.thecocktaildb.com/api/json/v1/1/random.php',
-  coctailsAmount
+  coctailsAmount,
+  coctailsList
 );
 
 // КОНЕЦ ЦИКЛА
