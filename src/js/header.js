@@ -12,25 +12,35 @@ const refs = {
   mobileMenu: document.querySelector('.header-mobile-menu'),
   list: document.querySelectorAll('.is-hidden'),
   lisBtn: document.querySelector('.favorite-btn-desctop'),
+  coctailTitel: document.querySelector('.coctails-section__title'),
+  cocktalisTitel: document.querySelector('.coctails-section__coctails-list'),
 };
 
 refs.input.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
 function onInput(evt) {
   let serchQuery = evt.target.value;
- 
+
   fetch(`${BASE_URL}search.php?s=${serchQuery}`)
     .then(response => response.json())
     .then(response => {
-      arrayLength = response.drinks.length;
-      console.log(arrayLength);
-      mainFunction(
-        1,
-        `${BASE_URL}search.php?s=${serchQuery}`,
-        arrayLength,
-        coctailsList
-      );
+      console.log(response);
+      const { drinks } = response;
+      if (drinks === null) {
+        console.log(response);
+        return responsNull();
+      } else {
+        refs.cocktalisTitel.innerHTML = '';
+        refs.coctailTitel.textContent = `Searching results`;
+        arrayLength = response.drinks.length;
+        mainFunction(
+          1,
+          `${BASE_URL}search.php?s=${serchQuery}`,
+          arrayLength,
+          coctailsList
+        );
+      }
     });
-     clerrElement()
+  clerrElement();
 }
 // ______________________________________________________
 // menu btn
@@ -63,11 +73,22 @@ function onFavoriteDescktopClick() {
   });
 }
 
-
-
 function clerrElement() {
   const removeTarget = document.querySelector('.is-hover');
-if(refs.input.value){
-removeTarget.classList.remove('is-hover')
+  if (removeTarget) {
+    removeTarget.classList.remove('is-hover');
+  }
 }
+
+function responsNull() {
+  refs.cocktalisTitel.innerHTML = '';
+  const sorryCocktaili = sorryCocktailFor();
+  refs.coctailTitel.textContent = `Sorry, we didn't find any cocktail for you`;
+  refs.cocktalisTitel.innerHTML = sorryCocktaili;
+}
+
+function sorryCocktailFor() {
+  return `<div class='coctails-section__coctails-img-div'>
+  <div class='coctails-section__coctails-img'></div>
+  </div>`;
 }
