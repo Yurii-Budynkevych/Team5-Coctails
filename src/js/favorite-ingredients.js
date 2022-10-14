@@ -15,6 +15,8 @@ import { modalToggleHidden } from './coctails';
 import { modalButtonTextChange } from './coctails';
 import { ingredientModalMarckup } from './coctails';
 
+// import { onClick } from "./menu-button";
+
 let ingredientNumber = 0;
 let favoriteIngredients = [];
 try {
