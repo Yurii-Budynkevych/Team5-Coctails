@@ -463,7 +463,9 @@ export default function mainFunction(
                 // забираем у бекенда его данные по его имени и создаем модалку
                 modalIngredients.forEach(elem => {
                   elem.addEventListener('click', event => {
-                    const currentingredientName = event.target.innerText;
+                    const currentingredientName =
+                      event.target.innerText.slice(2);
+                    currentingredientName;
                     fetchCoctailOrIngredient(
                       `https://www.thecocktaildb.com/api/json/v1/1/search.php?i=${currentingredientName}`
                     )
