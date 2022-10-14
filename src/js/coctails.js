@@ -149,7 +149,7 @@ const createIngredients = coctail => {
   const ingredientsList = document.querySelector('.coctail-modal__list');
   for (const key in coctail) {
     if (key.includes('strIngredient') && coctail[key] !== null) {
-      ingredientsList.innerHTML += `<li class ="coctail-modal__list-item"><button class="coctail-modal__ingredient" type="button">${coctail[key]}</button></li>`;
+      ingredientsList.innerHTML += `<li class ="coctail-modal__list-item"><button class="coctail-modal__ingredient" type="button">✶ ${coctail[key]}</button></li>`;
     }
   }
 };
@@ -432,26 +432,25 @@ export default function mainFunction(
                   coctailModal,
                   'coctails-section__coctail-modal--is-hidden'
                 );
-                // // вешаем на бекдроп функцию, которая закроет модалку
-                // coctailModalBackdrop.addEventListener('click', () => {
-                //   modalToggleHidden(
-                //     coctailModalBackdrop,
-                //     'coctails-section__coctail-modal-backdrop--is-hidden',
-                //     coctailModal,
-                //     'coctails-section__coctail-modal--is-hidden'
-                //   );
-                // });
-                // вешаем на кнопку закрытия модалки функцию, которая закроет модалку
+
+                // делаем переменную кнопки закрытия модалки
                 const closeCoctailModalBtn = document.querySelector(
                   '.coctail-modal__close-modal-btn'
                 );
-                closeCoctailModalBtn.addEventListener('click', () => {
-                  modalToggleHidden(
-                    coctailModalBackdrop,
-                    'coctails-section__coctail-modal-backdrop--is-hidden',
-                    coctailModal,
-                    'coctails-section__coctail-modal--is-hidden'
-                  );
+
+                // вешаем на бекдроп и кнопку закрытия модалки слушателя, который закроет модалку
+                window.addEventListener('click', event => {
+                  if (
+                    event.target === coctailModalBackdrop ||
+                    event.target === closeCoctailModalBtn
+                  ) {
+                    coctailModal.classList.add(
+                      'coctails-section__coctail-modal--is-hidden'
+                    );
+                    coctailModalBackdrop.classList.add(
+                      'coctails-section__coctail-modal-backdrop--is-hidden'
+                    );
+                  }
                 });
 
                 // создаем список ингредиентов
@@ -515,13 +514,13 @@ export default function mainFunction(
                               'Ingredients'
                             );
                             //меняем текст кнопки на длинный(на модалках он отличается)
-
                             modalButtonTextChange(
                               ingredientModalLikeBtn,
                               'ingredient-modal__like-ingredient-btn'
                             );
                           }
                         );
+
                         // делаем переменную кнопки закрытия модалки ингредиента
                         const closeIngredientlModalBtn = document.querySelector(
                           '.ingredient-modal__close-ingredient-btn'
@@ -535,29 +534,20 @@ export default function mainFunction(
                           'coctails-section__ingredient-modal--is-hidden'
                         );
 
-                        // вешаем на кнопку закрытия модалки функцию, которая закроет модалку
-                        closeIngredientlModalBtn.addEventListener(
-                          'click',
-                          () => {
-                            modalToggleHidden(
-                              ingredientModalBackdrop,
-                              'coctails-section__ingredient-modal-backdrop--is-hidden',
-                              ingredientModal,
+                        // вешаем на бекдроп и кнопку закрытия модалки слушателя, который закроет модалку
+                        window.addEventListener('click', event => {
+                          if (
+                            event.target === ingredientModalBackdrop ||
+                            event.target === closeIngredientlModalBtn
+                          ) {
+                            ingredientModal.classList.add(
                               'coctails-section__ingredient-modal--is-hidden'
                             );
-                          }
-                        );
-                        ingredientModalBackdrop.addEventListener(
-                          'click',
-                          () => {
-                            modalToggleHidden(
-                              ingredientModalBackdrop,
-                              'coctails-section__ingredient-modal-backdrop--is-hidden',
-                              ingredientModal,
-                              'coctails-section__ingredient-modal--is-hidden'
+                            ingredientModalBackdrop.classList.add(
+                              'coctails-section__ingredient-modal-backdrop--is-hidden'
                             );
                           }
-                        );
+                        });
                       })
                       .catch(alert.log);
                   });

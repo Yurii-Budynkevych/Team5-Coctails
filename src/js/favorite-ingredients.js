@@ -68,15 +68,15 @@ for (i; i < arrayLength; i += 1) {
       ingredientNumber,
       'Ingredients'
     );
-    // выбираем все созданные карточки коктейлей(вне зависимости от итерации)
+    // выбираем все созданные карточки ингредиентов(вне зависимости от итерации)
     const ingredinetCards = document.querySelectorAll(
       '.favorite-ingredients-section__ingredient-card'
     );
 
-    //вешаем слушателя события на все КАРТОЧКИ коктейлей(именно на карточки)
+    //вешаем слушателя события на все КАРТОЧКИ ингредиентов(именно на карточки)
     ingredinetCards.forEach(elem => {
       elem.addEventListener('click', event => {
-        //создаём переменную, которая будет содержать имя коктейля текущей итерации цикла
+        //создаём переменную, которая будет содержать имя ингредиента текущей итерации цикла
         const currentItemlName = event.currentTarget.querySelector(
           '.favorite-ingredients-section__card-title'
         ).textContent;
@@ -100,14 +100,12 @@ for (i; i < arrayLength; i += 1) {
           const currentIngredientNumber = event.currentTarget
             .querySelector('.favorite-ingredients-section__favorite-button')
             .getAttribute('id');
-          console.log(currentIngredientNumber);
-          // забираем у бекенда коктейль, на карточке которого открывается модалка
+          // забираем у бекенда ингредиент, на карточке которого открывается модалка
           // и получаем всю нужную инфу для модалки
           fetchCoctailOrIngredient(
             `https://www.thecocktaildb.com/api/json/v1/1/search.php?i=${currentItemlName}`
           ).then(newResponse => {
             const ingredient = newResponse;
-            console.log(ingredient);
             const {
               strAlcohol = '',
               strDescription = '',
@@ -129,7 +127,7 @@ for (i; i < arrayLength; i += 1) {
               '.ingredient-modal__like-ingredient-btn'
             );
 
-            // проверяем находится ли коктейль в списке избранных,
+            // проверяем находится ли ингредиент в списке избранных,
             // меняем текст кнопки в зависимости от того есть или нет
             checkFavoriteOrNot(
               strIngredient,
@@ -176,11 +174,7 @@ for (i; i < arrayLength; i += 1) {
               } else {
                 currentLikeButton.textContent = 'Remove';
               }
-              console.log(
-                ingredientModalLikeBtn,
-                ingredientModalLikeBtn.textContent
-              );
-
+              // меняем текст в кнопке модалки на длинный
               if (
                 ingredientModalLikeBtn.classList.contains(
                   'ingredient-modal__like-ingredient-btn'
@@ -202,13 +196,20 @@ for (i; i < arrayLength; i += 1) {
             const closeIngredientlModalBtn = document.querySelector(
               '.ingredient-modal__close-ingredient-btn'
             );
-            closeIngredientlModalBtn.addEventListener('click', () => {
-              modalToggleHidden(
-                ingredientModalBackdrop,
-                'coctails-section__ingredient-modal-backdrop--is-hidden',
-                ingredientModal,
-                'coctails-section__ingredient-modal--is-hidden'
-              );
+
+            // вешаем на бекдроп и кнопку закрытия модалки слушателя, который закроет модалку
+            window.addEventListener('click', event => {
+              if (
+                event.target === ingredientModalBackdrop ||
+                event.target === closeIngredientlModalBtn
+              ) {
+                ingredientModal.classList.add(
+                  'coctails-section__ingredient-modal--is-hidden'
+                );
+                ingredientModalBackdrop.classList.add(
+                  'coctails-section__ingredient-modal-backdrop--is-hidden'
+                );
+              }
             });
           });
         }
