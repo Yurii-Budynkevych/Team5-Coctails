@@ -11,6 +11,9 @@ const refs = {
 
   refs.btn.addEventListener('click', onClick);
 
+ 
+
+
  export default function onClick() {
   const expanded = refs.btn.getAttribute('aria-expanded') === 'true' || false;
 
@@ -33,6 +36,7 @@ const refs = {
 
 refs.lisBtn.addEventListener('click', onFavoriteDescktopClick);
 function onFavoriteDescktopClick() {
+ 
   refs.list.forEach(el => {
     el.classList.toggle('is-hidden');
   });
