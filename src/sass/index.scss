@@ -2,3 +2,15 @@
 @import './header';
 @import './hero';
 @import './coctails';
+
+
+.favorite-coctalis-js{
+    margin-top: 60px;
+
+@media screen and (min-width: 1200px) {
+    margin-top: 80px;
+  }
+
+    
+}
+
