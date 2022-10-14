@@ -78,8 +78,25 @@ html {
       
     }
   }
+  .coctails-section-coctailTitel{
+    margin: 0 auto;
+    font-family: 'Poppins';
+font-style: normal;
+font-weight: 700;
+align-items: center;
+text-align: center;
+    display: flex;
+   justify-content: center;
+  }
   
   @media screen and (min-width: 1200px){
+
+    .coctails-section-coctailTitel{
+      margin-bottom: 146px;
+      width: 493px;
+      font-size: 48px;
+      line-height: 72px;
+    }
   .container {
       width: 1200px;
   }
@@ -146,6 +163,12 @@ html {
   
   
   @media screen and (min-width: 768px) and (max-width: 1199px){
+    .coctails-section-coctailTitel{
+      margin-bottom: 62px;
+      width: 331px;
+      font-size: 32px;
+      line-height: 42px;
+    }
   .container {
       width: 768px;
   }
@@ -192,9 +215,7 @@ html {
       height: 75px;
    
     }
-    &-item{
-  
-    }
+ 
     &-button{
       width: 24px;
       height: 25px;
@@ -216,6 +237,12 @@ html {
   }
 
     @media screen and (max-width: 767px){
+      .coctails-section-coctailTitel{
+        margin-bottom: 63px;
+        width: 280px;
+        font-size: 22px;
+        line-height: 42px;
+      }
       .container {
           width: 320px;
       }
@@ -276,17 +303,22 @@ html {
            align-items: center; 
           padding: 10px;
           box-sizing: border-box;
-      
+          fill: #FD5103;
+          color:  #FD5103;;
+
+          font-family: 'Poppins';
+font-style: normal;
+          font-weight: 700;
+font-size: 16px;
+line-height: 135%;
           &:hover{
+
             background-color: #FD5103;
-            color: beige;
+             fill: #FCFCFC;
+            color:  #FCFCFC;;
               }
           }
-          &-button-list{
-    
-          }
           &-select{
-           
             height: 84px;
           overflow-y: scroll;
           }
@@ -347,7 +379,7 @@ html {
           &-svg{
     width: 20px;
     height: 20px;
-    // fill: #FD5103;
+ 
     
     &:hover {
     fill: rgb(245, 245, 245);
@@ -355,20 +387,18 @@ html {
           }
     
       }
-      // .coctails-section__coctails-img-div{
-      //   display: flex;
-      //   align-items: center;
-    
-      // }
+
       .coctails-section__coctails-img{
     
         width: 280px;
         height: 308px;
         background-size: cover;
         background-image: url(../images/photo2x.png);
-       
+       margin-bottom: 63px;
        
       }
+
+
       }
     
     .is-hden{
@@ -378,4 +408,8 @@ html {
     .is-hover{
       color: #FD5103;
      }
-  
+ 
+    .coctails-section-hover{
+      display: flex;
+      justify-content: center
+    }

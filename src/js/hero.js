@@ -9,6 +9,7 @@ const refst = {
   isHiden: document.querySelector('.is-hiden'),
   coctailTitel: document.querySelector('.coctails-section__title'),
   cocktalisTitel: document.querySelector('.coctails-section__coctails-list'),
+ 
 
   herospan : document.querySelector('.hero-span'),
   heroBox : document.querySelector('.hero-div'),
@@ -24,7 +25,7 @@ let arrayLength = 0;
 
 const { heroList, heroTitle, hero, select, isHiden, 
   heroItem ,headerinput,herospan,coctailTitel,cocktalisTitel,heroBox,
-  heroSelect,heroListUl} = refst;
+  heroSelect,heroListUl } = refst;
 
 const heroTitleImg = () => {
   return `<div class="hero-container">
@@ -129,30 +130,24 @@ if (innerWidth < 767) {
   heroTitle.insertAdjacentHTML('beforebegin', heroWidth);
   select.insertAdjacentHTML('beforeend', hiden.join(''));
 
-  hero.addEventListener("click", heroSelectA)
+  heroList.addEventListener("click", heroSelectA)
 
   function heroSelectA(e) {
+    const heroSvg = document.querySelector('.hero-svg');
+    const HeroSpann = document.querySelector('.hero-span');
       const targetMo = e.target
-console.log(targetMo !== heroSelect);
-      if(targetMo !== heroSelect){
+      if(targetMo === heroSelect || targetMo === HeroSpann || targetMo === heroSvg){
         heroListUl.classList.remove("is-hiden-select")
         heroListUl.classList.add("is-hden-select_display")
       }else{
         heroListUl.classList.add("is-hiden-select")
         heroListUl.classList.remove("is-hden-select_display")
+
       }
-      // if(targetMo === heroSelect){
-      //   heroListUl.classList.add("is-hiden-select")
-      //   heroListUl.classList.remove("is-hden-select_display")
-      // }else{
-      //   heroListUl.classList.remove("is-hiden-select")
-      //   heroListUl.classList.add("is-hden-select_display")
-      // }
-    
       const targetValue = e.target;
          if(targetValue){
   const targetId = e.target.id
-console.log(targetValue);
+
      if(targetId){;
 
 cocktalis(targetId).then(e =>{;
@@ -174,11 +169,15 @@ function cocktalis(name) {
       return response.json();
     })
     .then(response => {
-      console.log(response);
+    
          const {drinks} = response
       if (drinks === null) {
        return responsNull()
       } else{
+        coctailTitel.classList.add("coctails-section__title")
+        coctailTitel.classList.remove("coctails-section-coctailTitel")
+
+        coctailsList.classList.remove("coctails-section-hover")
        cocktalisTitel.innerHTML =  '';
        coctailTitel.textContent = `Searching results`;
       arrayLength = response.drinks.length;
@@ -189,10 +188,17 @@ function cocktalis(name) {
 
 
 function responsNull() {
+  coctailsList.classList.add("coctails-section-hover")
+
   cocktalisTitel.innerHTML =  '';
 const sorryCocktaili = sorryCocktailFor();
-coctailTitel.textContent = `Sorry, we didn't find any cocktail for you`;
-  cocktalisTitel.innerHTML =  sorryCocktaili;
+
+coctailTitel.classList.remove("coctails-section__title")
+coctailTitel.classList.add("coctails-section-coctailTitel")
+
+coctailTitel.textContent = `Sorry, we didn't find  any cocktail for you`;
+  cocktalisTitel.innerHTML = sorryCocktaili
+
 
 }
 
