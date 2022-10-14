@@ -18,21 +18,19 @@ const refs = {
 
 refs.input.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
 function onInput(evt) {
-  let serchQuery = evt.target.value;
+  let serchQuery = evt.target.value.trim();
 
   fetch(`${BASE_URL}search.php?s=${serchQuery}`)
     .then(response => response.json())
     .then(response => {
-   
       const { drinks } = response;
       if (drinks === null) {
-     
         return responsNull();
       } else {
-        refs.coctailTitel.classList.add("coctails-section__title")
-        refs.coctailTitel.classList.remove("coctails-section-coctailTitel")
+        refs.coctailTitel.classList.add('coctails-section__title');
+        refs.coctailTitel.classList.remove('coctails-section-coctailTitel');
 
-        coctailsList.classList.remove("coctails-section-hover")
+        coctailsList.classList.remove('coctails-section-hover');
         refs.cocktalisTitel.innerHTML = '';
         refs.coctailTitel.textContent = `Searching results`;
         arrayLength = response.drinks.length;
@@ -85,15 +83,15 @@ function clerrElement() {
 }
 
 function responsNull() {
-  coctailsList.classList.add("coctails-section-hover")
+  coctailsList.classList.add('coctails-section-hover');
   refs.cocktalisTitel.innerHTML = '';
   const sorryCocktaili = sorryCocktailFor();
 
-  refs.coctailTitel.classList.remove("coctails-section__title")
-  refs.coctailTitel.classList.add("coctails-section-coctailTitel")
+  refs.coctailTitel.classList.remove('coctails-section__title');
+  refs.coctailTitel.classList.add('coctails-section-coctailTitel');
 
   refs.coctailTitel.textContent = `Sorry, we didn't find any cocktail for you`;
-  refs.cocktalisTitel.innerHTML = sorryCocktaili
+  refs.cocktalisTitel.innerHTML = sorryCocktaili;
 }
 
 function sorryCocktailFor() {
