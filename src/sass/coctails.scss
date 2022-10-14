@@ -246,12 +246,31 @@
   top: 10;
 }
 
+.favorite-ingredients-section__like-button:active,
+.coctails-section__like-button:active {
+  &::before {
+    content: url(../images/add-like-heart-active.svg);
+    margin-left: 50px;
+    position: absolute;
+    top: 10;
+  }
+}
+
 .favorite-ingredients-section__dislike-button::before,
 .coctails-section__dislike-button::before {
   content: url(../images/add-like-heart.svg);
   margin-left: 60px;
   position: absolute;
   top: 10;
+}
+.favorite-ingredients-section__dislike-button:active,
+.coctails-section__dislike-button:active {
+  &::before {
+    content: url(../images/add-like-heart-active.svg);
+    margin-left: 60px;
+    position: absolute;
+    top: 10;
+  }
 }
 
 .empty-footer {
@@ -359,12 +378,6 @@
   margin-bottom: 30px;
 }
 
-.coctail-modal__ingredient::before {
-  content: '✶';
-  color: black;
-  margin-right: 5px;
-}
-
 .coctail-modal__ingredient,
 .coctail-modal__coctail-instruction {
   font-family: 'Poppins';
@@ -372,6 +385,13 @@
   color: #5f6775;
   border: none;
   background-color: inherit;
+}
+
+.coctail-modal__ingredient {
+  &:hover,
+  &:focus {
+    color: #fd5103;
+  }
 }
 
 @media (min-width: 768px) {
