@@ -2,7 +2,7 @@
   "name": "coctails",
   "version": "2.0.0",
   "description": "",
-  "homepage": "https://Borduir.github.io/Team5-Coctails",
+  "homepage": "https://yurii-budynkevych.github.io/Team5-Coctails/",
   "scripts": {
     "start": "parcel src/*.html",
     "build": "parcel build src/*.html --public-url /Team5-Coctails/"
